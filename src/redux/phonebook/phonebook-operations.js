@@ -25,7 +25,7 @@ export const fetchContacts = () => async dispatch => {
 };
 
 export const addContact = (name, number) => async dispatch => {
-  const contact = { name, number };
+  const contact = { name: name, number };
   dispatch(addContactRequest());
 
   try {
@@ -46,13 +46,3 @@ export const deleteContact = id => async dispatch => {
     dispatch(deleteContactError(error.message));
   }
 };
-
-// export const deleteContact = id => async dispatch => {
-//   dispatch(deleteContactRequest());
-
-//   try {
-//     await axios.delete(`contacts/${id}`);
-//   } catch (error) {
-//     dispatch(deleteContactError(error));
-//   }
-// };

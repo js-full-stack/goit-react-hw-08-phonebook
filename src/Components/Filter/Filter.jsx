@@ -8,16 +8,18 @@ const Filter = () => {
   const handleChangeFilter = e => dispatch(filterContacts(e.target.value));
 
   return (
-    <label className={styles.label}>
+    <>
       <span className={styles.text}>Find contacts by name</span>
 
-      <div className={styles.wrapper}>
-        <svg className={styles.iconSearch}>
-          <use href={`${sprite}#icon-search`}></use>
-        </svg>
-        <input className={styles.input} onChange={handleChangeFilter} type="text" />
-      </div>
-    </label>
+      <label className={styles.label}>
+        <div className={styles.wrapper}>
+          <svg className={styles.iconSearch}>
+            <use href={`${sprite}#icon-search`}></use>
+          </svg>
+          <input className={styles.input} onChange={handleChangeFilter} type="text" />
+        </div>
+      </label>
+    </>
   );
 };
 

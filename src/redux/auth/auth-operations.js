@@ -1,6 +1,7 @@
 import axios from 'axios';
 import authActions from './auth-actions';
 import { toast } from 'react-toastify';
+
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com/';
 const token = {
   set(token) {
@@ -20,7 +21,7 @@ const register = credentials => async dispatch => {
     token.set(data.token);
     dispatch(authActions.registerSuccess(data));
   } catch (error) {
-    // toast.error(error.message);
+    toast.error(error.message);
     dispatch(authActions.registerError(error.message));
   }
 };
@@ -34,7 +35,7 @@ const logIn = credentials => async dispatch => {
     token.set(response.data.token);
     dispatch(authActions.loginSuccess(response.data));
   } catch (error) {
-    // toast.error(error.message);
+    toast.error(error.message);
     dispatch(authActions.loginError(error.message));
   }
 };
@@ -48,7 +49,7 @@ const logOut = () => async dispatch => {
     token.unset();
     dispatch(authActions.logoutSuccess());
   } catch (error) {
-    // toast.error(error.message);
+    toast.error(error.message);
     dispatch(authActions.logoutError(error.message));
   }
 };

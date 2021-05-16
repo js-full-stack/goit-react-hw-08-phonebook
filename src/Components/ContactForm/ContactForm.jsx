@@ -1,9 +1,11 @@
-import styles from './ContactForm.module.scss';
 import sprite from '../sprite.svg';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/phonebook/phonebook-operations';
 import { getCurrentContacts } from '../../redux/phonebook/phonebook-selectors';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import styles from './ContactForm.module.scss';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -16,9 +18,9 @@ const ContactForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    currentContactsName.includes(name)
-      ? alert(`${name} is alredy in contacts`)
-      : dispatch(addContact(name, number));
+    currentContactsName.includes(name.trim())
+      ? toast.info(`${name.trim()} is alredy in contacts`)
+      : dispatch(addContact(name.trim(), number));
 
     setName('');
     setNumber('');
@@ -34,6 +36,7 @@ const ContactForm = () => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
+      <ToastContainer autoClose={3000} transition={Zoom} />
       <label className={styles.label}>
         <span>Name</span>
         <input
@@ -42,7 +45,7 @@ const ContactForm = () => {
           value={name}
           type="text"
           name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          pattern="^\s*[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*\s*$"
           title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
           required
         />
@@ -56,7 +59,7 @@ const ContactForm = () => {
           value={number}
           type="tel"
           name="number"
-          pattern="(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})"
+          pattern="\s*(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})\s*"
           title="Номер телефона должен состоять из 11-12 цифр и может содержать цифры, пробелы, тире, пузатые скобки и может начинаться с +"
           required
         />

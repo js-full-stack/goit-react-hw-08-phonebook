@@ -1,22 +1,18 @@
+import styles from './LoginPage.module.scss';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authOperations } from '../../redux/auth';
-const styles = {
-  form: {
-    width: 320,
-  },
-  label: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: 15,
-  },
-};
+import { ToastContainer, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Spinner from '../../Components/Loader';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const isLoading = useSelector(state => state.auth.loading);
 
   const handleChangeEmail = e => setEmail(e.target.value);
   const handleChangePassword = e => setPassword(e.target.value);
@@ -30,33 +26,41 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <h1>Страница логина</h1>
+    <>
+      {!!isLoading ? (
+        <Spinner />
+      ) : (
+        <div>
+          <ToastContainer autoClose={3000} transition={Zoom} />
+          <h4>Please, enter your login details</h4>
 
-      <form onSubmit={handleSubmit} style={styles.form} autoComplete="off">
-        <label style={styles.label}>
-          Почта
-          <input type="email" name="email" value={email} onChange={handleChangeEmail} />
-        </label>
+          <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
+            <label className={styles.label}>
+              Почта
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={handleChangeEmail}
+              />
+            </label>
 
-        <label style={styles.label}>
-          Пароль
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={handleChangePassword}
-          />
-        </label>
+            <label className={styles.label}>
+              Пароль
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={handleChangePassword}
+              />
+            </label>
 
-        <button type="submit">Войти</button>
-      </form>
-    </div>
+            <button type="submit">Войти</button>
+          </form>
+        </div>
+      )}
+    </>
   );
 };
 
-// const mapDispatchToProps = {
-//   onLogin: authOperations.logIn,
-// };
-// export default connect(null, mapDispatchToProps)(LoginPage);
 export default LoginPage;
