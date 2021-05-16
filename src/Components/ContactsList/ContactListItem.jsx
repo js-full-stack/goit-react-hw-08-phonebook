@@ -5,7 +5,6 @@ import { deleteContact } from '../../redux/phonebook/phonebook-operations';
 import { getContactItemById } from '../../redux/phonebook/phonebook-selectors';
 
 import React from 'react';
-import { Button } from '@material-ui/core';
 
 const ContactListItem = ({ id }) => {
   const { name, number } = useSelector(getContactItemById(id));
@@ -19,12 +18,12 @@ const ContactListItem = ({ id }) => {
       <span className={styles.textContact}>
         {name} : {number}
       </span>
-      <Button /* className={styles.btnDelete}  */ onClick={handleDeleteContact}>
+      <button /* className={styles.btnDelete}  */ onClick={handleDeleteContact}>
         Delete
         <svg className={styles.iconRemove}>
           <use href={`${sprite}#icon-remove`}></use>
         </svg>
-      </Button>
+      </button>
     </li>
   );
 };
